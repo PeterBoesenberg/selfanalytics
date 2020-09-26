@@ -1,10 +1,11 @@
 library(shiny)
 
 shinyUI(fluidPage(
-  titlePanel("Old Faithful Geyser Data"),
+  titlePanel("Self Analytics"),
 
   sidebarLayout(
     sidebarPanel(
+      div("asdads"),
       sliderInput("bins",
         "Number of bins:",
         min = 1,
@@ -14,7 +15,7 @@ shinyUI(fluidPage(
     ),
 
     mainPanel(
-      uiOutput("bla")
+      div("bla")
     )
   )
 ))
