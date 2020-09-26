@@ -8,7 +8,7 @@ Profile <- R6Class("Profile",
     initialize = function() {
       linkedin <- LinkedIn$new()
     },
-    
+
     #' @field name full name of the person.
     name = NULL,
 
@@ -20,7 +20,6 @@ Profile <- R6Class("Profile",
     read = function() {
       self$name <- "Peter"
       self$company <- "functionHR"
-      
     }
   ),
   private = list(
