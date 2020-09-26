@@ -2,6 +2,8 @@ library(R6)
 library(config)
 library(rvest)
 library(RSelenium)
+library(data.table)
+library(stringr)
 
 config <- config::get()
 
@@ -17,8 +19,7 @@ LinkedIn <- R6Class("LinkedIn",
     #' @description
     #' Read data from the web
     read = function(profile_path) {
-      html <- private$get_shares_html(profile_path)
-      print(html)
+      html <- private$get_shares(profile_path)
       return(html)
     }
   ),
@@ -31,7 +32,7 @@ LinkedIn <- R6Class("LinkedIn",
     driver = NULL,
 
     setup_crawler = function() {
-      rD <- rsDriver(chromever = '85.0.4183.87', port=1247L)
+      rD <- rsDriver(chromever = '85.0.4183.87', port=1264L)
       driver <- rD[["client"]]
       driver$maxWindowSize(winHand = "current")
       private$driver <- driver
@@ -58,21 +59,38 @@ LinkedIn <- R6Class("LinkedIn",
       body$sendKeysToElement(list(key = "end"))
       Sys.sleep(3)
     },
-    
     get_shares_html = function(profile_path) {
       driver <- private$driver
 
       url <- paste(private$base_path, profile_path, private$shares_path, sep = "/")
       driver$navigate(url)
       Sys.sleep(3)
-      for (i in seq_len(2)) {
+      for (i in seq_len(5)) {
         private$scroll_down()
       }
       body <-  driver$findElements("css", "body")
-      bpdy_content <- read_html(unlist(body[[1]]$getElementAttribute('innerHTML')))
+      body_content <- read_html(unlist(body[[1]]$getElementAttribute('innerHTML')))
       private$shut_down_crawler()
-      shares <- html_nodes(bpdy_content, ".feed-shared-update-v2")
+      shares <- html_nodes(body_content, ".feed-shared-update-v2")
       return(shares)
+    },
+    get_share = function(share_html) {
+      raw_date <- html_text(html_node(share_html, ".feed-shared-actor__sub-description span"))
+      date <- str_split(raw_date, " ", simplify = TRUE)[1]
+      likes <- html_text(html_node(share_html, ".social-details-social-counts__reactions-count"))
+      # TODO filter out own comments
+      comments_raw <- html_text(html_node(share_html, ".social-details-social-counts__comments"))
+      print(comments_raw)
+      comments <- str_split(str_trim(comments_raw), " ", simplify = TRUE)[1]
+      share <- list(date = date, likes = str_trim(likes), comments = comments)
+      return(share)
+    },
+    get_shares = function(profile_path) {
+      shares_html <- private$get_shares_html(profile_path)
+      shares <- sapply(shares_html, private$get_share)
+      dt <- as.data.table(t(shares))
+      dt <- dt[, likes := as.numeric(likes)][, comments := as.numeric(comments)]
+      return(dt)
     }
   )
 )
