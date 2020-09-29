@@ -4,25 +4,28 @@ source("R/LinkedIn.R")
 #' Profile of a person
 Profile <- R6Class("Profile",
   public = list(
-    #' constructor
+    
+    #' Initialize the profile and setup LinkedIn-Crawling.
     initialize = function() {
-      linkedin <- LinkedIn$new()
+      private$linkedin <- LinkedIn$new()
     },
 
     #' @field name full name of the person.
     name = NULL,
 
-    #' @field company current company
-    company = NULL,
+    #' @field shares recent shares of the person
+    shares = NULL,
 
     #' @description
-    #' Read data from the web
+    #' Read data from the web and save it to local variables
     read = function() {
-      self$name <- "Peter"
-      self$company <- "functionHR"
+      linkedin_data <- private$linkedin$read(private$profile_name)
+      self$name <- linkedin_data$name
+      self$shares <- linkedin_data$shares
     }
   ),
   private = list(
-    path = "https://www.linkedin.com/in/peterboesenberg/"
+    linkedin = NULL,
+    profile_name = "peterboesenberg"
   )
 )
