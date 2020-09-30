@@ -9,9 +9,8 @@ shinyServer(function(input, output) {
   print(profile$name)
   print(profile$shares)
   fwrite(profile$shares, "profile.csv")
-  
+
   output$linkedin_performance <- renderPlotly(
-    
     plot_ly(type = "bar", orientation = "h", name = "female")
   )
 })
