@@ -7,16 +7,17 @@ stages:
 - test
 - deploy
 
+install_libs:
+  stage: build
+  script:
+   - R -e 'install.packages(c("config"))'
+
 buildbinary:
   stage: build
   script:
     - r -e 'devtools::build(binary = TRUE)'
 
-# install_libs:
-#   stage: build
-#   script:
-#    - R -e 'install.packages(c("lintr", "styler", "testthat"))'
-# 
+
 # test:
 #   script:
 #   - R -e 'install.packages(c("lintr", "styler", "testthat"))'
