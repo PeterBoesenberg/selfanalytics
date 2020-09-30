@@ -12,18 +12,14 @@ install_libs:
   stage: install
   script:
    - R -e 'install.packages(c("config"))'
+   - r -e 'devtools::build(binary = TRUE)'
+   - R -e 'lintr::lint_dir(".")'
 
-buildbinary:
-  stage: build
-  script:
-    - r -e 'devtools::build(binary = TRUE)'
-
-
-# test:
+# buildbinary:
+#   stage: build
 #   script:
-#   - R -e 'install.packages(c("lintr", "styler", "testthat"))'
-
-linting:
-  stage: check
-  script:
-  - R -e 'lintr::lint_dir(".")'
+#     - r -e 'devtools::build(binary = TRUE)'
+# 
+# linting:
+#   stage: check
+#   script:
