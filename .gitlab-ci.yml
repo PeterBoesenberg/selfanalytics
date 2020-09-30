@@ -1,4 +1,4 @@
-image: r-base
+image: rocker/shiny-verse
 
 stages:
 - build
