@@ -1,6 +1,7 @@
 image: rocker/shiny-verse
 
 stages:
+- install
 - build
 - document
 - check
@@ -8,7 +9,7 @@ stages:
 - deploy
 
 install_libs:
-  stage: build
+  stage: install
   script:
    - R -e 'install.packages(c("config"))'
 
