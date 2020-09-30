@@ -11,7 +11,7 @@ stages:
 install_libs:
   stage: install
   script:
-   - R -e 'install.packages(c("config"))'
+   - R -e 'install.packages(c("config", "RSelenium"))'
    - r -e 'devtools::build(binary = TRUE)'
    - R -e 'lintr::lint_dir(".")'
 
