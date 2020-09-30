@@ -13,13 +13,14 @@ install_libs:
   script:
    - R -e 'install.packages(c("lintr", "styler", "testthat", "config", "RSelenium"))'
    # - r -e 'devtools::build(binary = TRUE)'
-   - R -e 'lintr::lint_dir(".")'
+   # - R -e 'lintr::lint_dir(".")'
 
 # buildbinary:
 #   stage: build
 #   script:
 #     - r -e 'devtools::build(binary = TRUE)'
 # 
-# linting:
-#   stage: check
-#   script:
+linting:
+  stage: check
+  script:
+  - R -e 'lintr::lint_dir(".")'
