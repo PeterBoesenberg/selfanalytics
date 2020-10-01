@@ -24,7 +24,7 @@ install_libs:
 code_quality:
   stage: test
   artifacts:
-  paths: [gl-code-quality-report.json]
+    paths: [gl-code-quality-report.json]
 
 # buildbinary:
 #   stage: build
