@@ -24,7 +24,7 @@ install_libs:
 code_quality:
   stage: test
   artifacts:
-    paths: ["lintr_report.xml"]
+    paths: ["codeclimate_report.xml"]
 
 # buildbinary:
 #   stage: build
