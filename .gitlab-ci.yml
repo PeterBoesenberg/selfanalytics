@@ -8,6 +8,9 @@ stages:
 - test
 - deploy
 
+include:
+  - template: Code-Quality.gitlab-ci.yml
+
 install_libs:
   stage: install
   script:
@@ -17,6 +20,12 @@ install_libs:
   artifacts:
     reports:
       codequality: "lintr_report.xml"
+
+code_quality:
+   stage: test
+   code_quality:
+     artifacts:
+     paths: [gl-code-quality-report.json]
 
 # buildbinary:
 #   stage: build
