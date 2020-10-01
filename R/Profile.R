@@ -2,7 +2,7 @@ library(R6)
 source("R/LinkedIn.R")
 
 #' Profile of a person
-profile <- R6Class("Profile",
+Profile <- R6Class("Profile",
   public = list(
 
     #' Initialize the profile and setup LinkedIn-Crawling.
