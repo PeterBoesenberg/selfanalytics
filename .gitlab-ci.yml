@@ -22,10 +22,9 @@ install_libs:
       codequality: "lintr_report.xml"
 
 code_quality:
-   stage: test
-   code_quality:
-     artifacts:
-     paths: [gl-code-quality-report.json]
+  stage: test
+  artifacts:
+  paths: [gl-code-quality-report.json]
 
 # buildbinary:
 #   stage: build
