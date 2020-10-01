@@ -14,9 +14,9 @@ install_libs:
    - R -e 'install.packages(c("lintr", "styler", "testthat", "config", "RSelenium"))'
    # - r -e 'devtools::build(binary = TRUE)'
    - R -e 'lintr::checkstyle_output(lintr::lint_dir("."), "lintr_report.xml")'
-   artifacts:
-      reports:
-         codequality: "lintr_report.xml"
+  artifacts:
+    reports:
+      codequality: "lintr_report.xml"
 
 # buildbinary:
 #   stage: build
