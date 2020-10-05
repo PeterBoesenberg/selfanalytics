@@ -21,6 +21,12 @@ install_libs:
     reports:
       codequality: "lintr_report.xml"
 
+unittests:
+  stage: test
+  script:
+    - r -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
+
+
 code_quality:
   stage: test
   artifacts:
