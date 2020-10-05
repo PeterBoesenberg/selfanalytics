@@ -24,6 +24,7 @@ install_libs:
 unittests:
   stage: test
   script:
+    - R -e 'install.packages(c("testthat", "config"))'
     - r -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
 
 
