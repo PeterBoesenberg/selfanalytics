@@ -1,6 +1,9 @@
 library(shiny)
 library(plotly)
 shinyUI(fluidPage(
+  includeCSS("www/layout.css"),
   titlePanel("Self Analytics"),
-  plotlyOutput("linkedin_performance")
+  div(class = "flex",
+    plotlyOutput("linkedin_performance")
+  )
 ))

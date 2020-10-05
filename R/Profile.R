@@ -7,7 +7,6 @@ Profile <- R6Class("Profile",
 
     #' Initialize the profile and setup LinkedIn-Crawling.
     initialize = function() {
-      private$linkedin <- LinkedIn$new()
     },
 
     #' @field name full name of the person.

@@ -35,11 +35,11 @@ LinkedIn <- R6Class("LinkedIn",
     driver = NULL,
 
     setup_crawler = function() {
-      rD <- rsDriver(chromever = "85.0.4183.87", port = 1214L)
-      driver <- rD[["client"]]
+      rd <- rsDriver(chromever = "85.0.4183.87", port = 1214L)
+      driver <- rd[["client"]]
       driver$maxWindowSize(winHand = "current")
       private$driver <- driver
-      private$selenium_driver <- rD
+      private$selenium_driver <- rd
     },
     login = function() {
       driver <- private$driver
