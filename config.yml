@@ -1,0 +1,15 @@
+default:
+  db:
+    url: ""
+    collection: "linkedin"
+  mail:
+    host: "smtp.gmail.com"
+    port: 587
+    user: "peterboesenberg@gmail.com"
+    password: ""
+  error_mail: "peterboesenberg@gmail.com"
+  linkedin:
+    user: "peterboesenberg@gmail.com"
+    password: ""
+
+
