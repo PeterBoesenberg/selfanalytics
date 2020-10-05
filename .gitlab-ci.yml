@@ -24,7 +24,7 @@ install_libs:
 unittests:
   stage: test
   script:
-    - R -e 'install.packages(c("testthat", "config"))'
+    - R -e 'install.packages(c("lintr", "styler", "testthat", "config", "RSelenium"))'
     - r -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
 
 
