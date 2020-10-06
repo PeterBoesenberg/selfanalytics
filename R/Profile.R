@@ -28,6 +28,10 @@ profile_class <- R6Class("Profile",
       private$write(self$shares)
     },
     
+    #' Gets the UI-tags to refresh Profile data.
+    #' Builds a taglist with input and button
+    #'
+    #' @return tagList with input and button
     get_refresh_ui = function() {
       tagList(
         sliderInput("pages_count", "Scroll how many times:",
@@ -37,13 +41,20 @@ profile_class <- R6Class("Profile",
       )
     },
     
+    #' Gets the server-part for refresh-UI.
+    #' Observes button and starts linkedin-crawling on click.
+    #' Afterwards, refresh UI
+    #' @param input shiny input with refresh_linkedin
+    #' @param output shiny output
     get_refresh_server = function(input, output) {
       observeEvent(input$refresh_linkedIn, {
         self$refresh(input$pages_count)
-        # self$shares <- data.table(id = c(1,2,3), views = c(10,20,30), likes=c(30,5,60), comments= c(0, 4,9))
         private$refresh_outputs(output)
       })
     },
+    #' Read profile from profile.csv.
+    #' Reads profile and refreshes UI
+    #' @param output shiny output
     read = function(output) {
       shares <- fread("profile.csv")
       self$shares <- shares
@@ -53,16 +64,33 @@ profile_class <- R6Class("Profile",
   private = list(
     linkedin = NULL,
     profile_name = "peterboesenberg",
+    
+    #' Write shares to profile.csv.
+    #' This file will be read at start of app.
+    #'
+    #' @param shares datatable with columns likes, comments, views, date
     write = function(shares) {
       shares <- shares[, id:=nrow(shares):1]
       shares <- shares[is.na(comments), comments := 0]
+      shares <- shares[is.na(likes), likes := 0]
       fwrite(shares, "profile.csv")
     },
+    
+    #' Refreshes shiny-outputs with values in self$shares.
+    #' Used to rerender plotly.charts with Profile-performance. 
+    #' Sets shiny output variables
+    #'
+    #' @param output shiny output
     refresh_outputs = function(output = NULL) {
       performance <- performance_class$new() 
       performance$refresh_server(output, self$shares)
       output$shares_count <- private$build_shares_count_ui(self$shares)
     },
+    
+    #' Builds the text output to show how many shares are currently loaded.
+    #'
+    #' @param shares datatable, whose rows are counted
+    #' @return shiny renderText
     build_shares_count_ui = function(shares) {
       renderText({paste0("Currently loaded shares:", nrow(shares))})
     }
