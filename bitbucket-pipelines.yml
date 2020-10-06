@@ -1,0 +1,18 @@
+image: rocker/shiny-verse
+
+pipelines:
+  default:
+    - step:
+        script:
+        - R -e 'install.packages(c("lintr", "styler", "testthat", "config", "RSelenium"))'
+        - mkdir test-reports
+        - R -e 'lintr::checkstyle_output(lintr::lint_dir("."), "checkstyle-result.xml")'
+        - R -e 'options(testthat.output_file = "test-reports/test-report.xml");testthat::test_dir("tests/testthat", reporter = "junit")'
+        artifacts:
+        - "checkstyle-result.xml"
+        - "test-report.xml"
+        after-script:
+          - pipe: atlassian/checkstyle-report:0.2.0
+            variables:
+              REPORT_FAIL_SEVERITY: "info"
+    

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="lintr-2.0.1">
+  <file name="C:\Users\peter\Documents\workspace\selfanalytics/R\LinkedIn.R">
+    <error line="11" column="1" severity="info" message="Variable and function name style should be snake_case."/>
+    <error line="84" column="7" severity="info" message="TODO comments should be removed."/>
+  </file>
+  <file name="C:\Users\peter\Documents\workspace\selfanalytics/R\Profile.R">
+    <error line="5" column="1" severity="info" message="Variable and function name style should be snake_case."/>
+  </file>
+  <file name="C:\Users\peter\Documents\workspace\selfanalytics/server.R">
+    <error line="7" column="5" severity="info" message="Commented code should be removed."/>
+    <error line="8" column="5" severity="info" message="Commented code should be removed."/>
+    <error line="9" column="5" severity="info" message="Commented code should be removed."/>
+    <error line="10" column="5" severity="info" message="Commented code should be removed."/>
+    <error line="11" column="5" severity="info" message="Commented code should be removed."/>
+    <error line="15" column="24" severity="info" message="Put spaces around all infix operators."/>
+    <error line="15" column="26" severity="warning" message="Avoid nrow(...):1 expressions, use seq_len."/>
+    <error line="17" column="1" severity="info" message="Trailing whitespace is superfluous."/>
+    <error line="18" column="5" severity="info" message="Commented code should be removed."/>
+    <error line="20" column="36" severity="info" message="Only use double-quotes."/>
+  </file>
+</checkstyle>
