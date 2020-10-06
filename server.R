@@ -2,25 +2,16 @@ library(shiny)
 library(data.table)
 library(plotly)
 source("R/Profile.R")
+source("R/performance.R")
 
 shinyServer(function(input, output) {
-  # profile <- Profile$new()
-  # profile$read()
-  # print(profile$name)
-  # print(profile$shares)
-  # fwrite(profile$shares, "profile.csv")
-
-  shares <- fread("profile.csv")
-  print(shares)
-  shares <- shares[, id:=nrow(shares):1]
-  shares <- shares[is.na(comments), comments := 0]
+  profile <- profile_class$new()
+  shares <- profile$shares
+  performance <- performance_class$new() 
+    
+  performance$get_views_server("linkedin_views", output, shares)
+  performance$get_likes_server("linkedin_likes", output, shares)
+  performance$get_comments_server("linkedin_comments", output, shares)
   
-  # shares <- shares[]
-  output$linkedin_performance <- renderPlotly({
-    plot <- plot_ly(shares, mode = 'lines')
-    plot <- add_trace(plot, x = ~id, y = ~likes, name = "Likes")
-    plot <- add_trace(plot, x = ~id, y = ~comments, name = "Comments")
-    plot <- add_trace(plot, x = ~id, y = ~views, name = "Views")
-    plot
-  })
+  profile$get_refresh_server(input)
 })

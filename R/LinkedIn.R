@@ -8,7 +8,7 @@ library(stringr)
 config <- config::get()
 
 #' LinkedIn connector
-LinkedIn <- R6Class("LinkedIn",
+linkedin_class <- R6Class("LinkedIn",
   public = list(
 
     #' constructor
@@ -35,7 +35,7 @@ LinkedIn <- R6Class("LinkedIn",
     driver = NULL,
 
     setup_crawler = function() {
-      rd <- rsDriver(chromever = "85.0.4183.87", port = 1214L)
+      rd <- rsDriver(chromever = "85.0.4183.87", port = 1215L)
       driver <- rd[["client"]]
       driver$maxWindowSize(winHand = "current")
       private$driver <- driver
