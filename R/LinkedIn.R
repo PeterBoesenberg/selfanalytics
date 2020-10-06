@@ -36,6 +36,7 @@ linkedin_class <- R6Class("LinkedIn",
     selenium_driver = NULL,
     driver = NULL,
 
+    #' Starting Selenium and keeping selenium driver as a class variable.
     setup_crawler = function() {
       rd <- rsDriver(chromever = "85.0.4183.87", port = private$get_random_port_number())
       driver <- rd[["client"]]
@@ -52,6 +53,9 @@ linkedin_class <- R6Class("LinkedIn",
     get_random_port_number = function() {
       as.integer(runif(1, 1000, 3000))
     },
+    #' Log into LinkedIn.
+    #' Credentials have to be supplied in a file config.yml.
+    #' Looking for entries linked$user and linked$password.
     login = function() {
       driver <- private$driver
       driver$navigate(private$login_url)
@@ -62,11 +66,17 @@ linkedin_class <- R6Class("LinkedIn",
       password_input[[1]]$clickElement()
       password_input[[1]]$sendKeysToElement(list(config$linkedin$password, key = "enter"))
     },
+    #' Shut down the crawler and run garbage collection.
+    #' In theory, this should completely stop Selenium and free up the used port.
+    #' In reality, the port is still blocked.
     shut_down_crawler = function() {
       private$driver$close()
       private$selenium_driver$server$stop()
       gc()
     },
+    #' Scrolls to the end of the page and waits three seconds.
+    #' Waiting is necessary to let the webpage load the new content.
+    #' (infinite scrolling)
     scroll_down = function() {
       driver <- private$driver
       body <- driver$findElement("css", "body")
@@ -90,6 +100,12 @@ linkedin_class <- R6Class("LinkedIn",
       shares <- html_nodes(body_content, ".feed-shared-update-v2")
       return(shares)
     },
+    #' Get a single share.
+    #' Parses html of one share and returns a list with relevant numbers.
+    #'
+    #' @param share_html html block of the share
+    #'
+    #' @return list with date, likes, comments, views
     get_share = function(share_html) {
       raw_date <- html_text(html_node(share_html, ".feed-shared-actor__sub-description span"))
       date <- str_split(raw_date, " ", simplify = TRUE)[1]
@@ -114,6 +130,9 @@ linkedin_class <- R6Class("LinkedIn",
       dt <- dt[, likes := as.numeric(likes)][, comments := as.numeric(comments)][, views := as.numeric(views)]
       return(dt)
     },
+    #' Get the name of the profile from HTML.
+    #'
+    #' @return name as string, for example "Horst Schmidt" 
     get_name = function() {
       driver <- private$driver
       element <- driver$findElements("css", ".pv-recent-activity-top-card__info h3")
