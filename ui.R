@@ -8,9 +8,12 @@ profile <- profile_class$new()
 shinyUI(fluidPage(
   includeCSS("www/layout.css"),
   titlePanel("Self Analytics"),
+  h1("Connect to LinkedIn Data"),
+  textOutput("shares_count"),
   div(class = "flex",
       profile$get_refresh_ui()
-      ),
+      )
+  ,
   div(class = "flex",
     performance$get_views_ui("linkedin_views"),
     performance$get_likes_ui("linkedin_likes"),

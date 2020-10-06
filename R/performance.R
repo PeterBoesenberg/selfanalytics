@@ -6,7 +6,12 @@ performance_class <- R6Class(
     get_views_ui = function(id) {
       plotlyOutput("linkedin_views")
     },
-    get_views_server = function(id, output, shares) {
+    refresh_server = function(output, shares) {
+      self$get_views_server(output, shares)
+      self$get_likes_server(output, shares)
+      self$get_comments_server(output, shares)
+    },
+    get_views_server = function(output, shares) {
       output$linkedin_views <- renderPlotly({
         plot <- plot_ly(shares, mode = 'lines')
         plot <-
@@ -22,7 +27,7 @@ performance_class <- R6Class(
     get_likes_ui = function(id) {
       plotlyOutput("linkedin_likes")
     },
-    get_likes_server = function(id, output, shares) {
+    get_likes_server = function(output, shares) {
       output$linkedin_likes <- renderPlotly({
         plot <- plot_ly(shares, mode = 'lines')
         plot <-
@@ -38,7 +43,7 @@ performance_class <- R6Class(
     get_comments_ui = function(id) {
       plotlyOutput("linkedin_comments")
     },
-    get_comments_server = function(id, output, shares) {
+    get_comments_server = function(output, shares) {
       output$linkedin_comments <- renderPlotly({
         plot <- plot_ly(shares, mode = 'lines')
         plot <-

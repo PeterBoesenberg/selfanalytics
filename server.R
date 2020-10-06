@@ -6,12 +6,12 @@ source("R/performance.R")
 
 shinyServer(function(input, output) {
   profile <- profile_class$new()
-  shares <- profile$shares
+  profile$read(output)
   performance <- performance_class$new() 
-    
-  performance$get_views_server("linkedin_views", output, shares)
-  performance$get_likes_server("linkedin_likes", output, shares)
-  performance$get_comments_server("linkedin_comments", output, shares)
-  
-  profile$get_refresh_server(input)
+
+  performance$get_views_server(output, profile$shares)
+  performance$get_likes_server(output, profile$shares)
+  performance$get_comments_server(output, profile$shares)
+
+  profile$get_refresh_server(input, output)
 })

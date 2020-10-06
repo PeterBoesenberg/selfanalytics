@@ -18,8 +18,10 @@ linkedin_class <- R6Class("LinkedIn",
     },
     #' @description
     #' Read data from the web
-    read = function(profile_path) {
-      shares <- private$get_shares(profile_path)
+    #' @param profile_path path to the profile, e.g. "peterboesenberg"
+    #' @param pages number of pages selenium should scroll down to get shares
+    read = function(profile_path, pages = 10) {
+      shares <- private$get_shares(profile_path, pages)
       name <- private$get_name()
       private$shut_down_crawler()
       data <- list(name = name, shares = shares)
@@ -35,11 +37,20 @@ linkedin_class <- R6Class("LinkedIn",
     driver = NULL,
 
     setup_crawler = function() {
-      rd <- rsDriver(chromever = "85.0.4183.87", port = 1215L)
+      rd <- rsDriver(chromever = "85.0.4183.87", port = private$get_random_port_number())
       driver <- rd[["client"]]
       driver$maxWindowSize(winHand = "current")
       private$driver <- driver
       private$selenium_driver <- rd
+    },
+    
+    #' Generate a random number between 1000 and 3000.
+    #'
+    #' Selenium is for some reason not releasing ports after use.
+    #' Therefore we use a random port at every run.
+    #' @return integer between 1000 and 30000
+    get_random_port_number = function() {
+      as.integer(runif(1, 1000, 3000))
     },
     login = function() {
       driver <- private$driver
@@ -62,13 +73,15 @@ linkedin_class <- R6Class("LinkedIn",
       body$sendKeysToElement(list(key = "end"))
       Sys.sleep(3)
     },
-    get_shares_html = function(profile_path) {
+    #' @param profile_path path to the profile, e.g. "peterboesenberg"
+    #' @param pages number of pages selenium should scroll down to get shares
+    get_shares_html = function(profile_path, pages = 10) {
       driver <- private$driver
 
       url <- paste(private$base_path, profile_path, private$shares_path, sep = "/")
       driver$navigate(url)
       Sys.sleep(3)
-      for (i in seq_len(5)) {
+      for (i in seq_len(pages)) {
         private$scroll_down()
       }
       body <- driver$findElements("css", "body")
@@ -92,8 +105,10 @@ linkedin_class <- R6Class("LinkedIn",
       share <- list(date = date, likes = str_trim(likes), comments = comments, views = views)
       return(share)
     },
-    get_shares = function(profile_path) {
-      shares_html <- private$get_shares_html(profile_path)
+    #' @param profile_path path to the profile, e.g. "peterboesenberg"
+    #' @param pages number of pages selenium should scroll down to get shares
+    get_shares = function(profile_path, pages = 10) {
+      shares_html <- private$get_shares_html(profile_path, pages)
       shares <- sapply(shares_html, private$get_share)
       dt <- as.data.table(t(shares))
       dt <- dt[, likes := as.numeric(likes)][, comments := as.numeric(comments)][, views := as.numeric(views)]
