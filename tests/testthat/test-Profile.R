@@ -8,7 +8,7 @@ test_that("shares on init NULL", {
 })
 test_that("get_refresh_ui", {
   profile <- Profile$new()
-  result <- profile$get_refresh_ui()  
+  result <- profile$get_refresh_ui()
   expect_equal(class(result)[1], "shiny.tag.list")
   expect_true(grepl("button id=\"refresh_linkedIn\"", result))
   expect_true(grepl("input", result))

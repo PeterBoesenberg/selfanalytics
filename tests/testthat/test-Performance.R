@@ -6,7 +6,7 @@ test_that("get_views_ui", {
 })
 test_that("get_views_server", {
   performance <- Performance$new()
-  shares <- data.table(id = c(1,2), views = c(10,20))
+  shares <- data.table(id = c(1, 2), views = c(10, 20))
   result <- performance$get_views_server(NULL, shares)
   expect_equal(class(result)[1], "shiny.render.function")
   expect_equal(class(result()), "json")
@@ -20,7 +20,7 @@ test_that("get_likes_ui", {
 })
 test_that("get_likes_server", {
   performance <- Performance$new()
-  shares <- data.table(id = c(1,2), likes = c(10,20))
+  shares <- data.table(id = c(1, 2), likes = c(10, 20))
   result <- performance$get_likes_server(NULL, shares)
   expect_equal(class(result)[1], "shiny.render.function")
   expect_equal(class(result()), "json")
@@ -34,7 +34,7 @@ test_that("get_comments_ui", {
 })
 test_that("get_comments_server", {
   performance <- Performance$new()
-  shares <- data.table(id = c(1,2), comments = c(10,20))
+  shares <- data.table(id = c(1, 2), comments = c(10, 20))
   result <- performance$get_comments_server(NULL, shares)
   expect_equal(class(result)[1], "shiny.render.function")
   expect_equal(class(result()), "json")
