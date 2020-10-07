@@ -33,10 +33,11 @@ Profile <- R6Class("Profile", #nolint
     get_refresh_ui = function() {
       tagList(
         sliderInput("pages_count", "Scroll how many times:",
-          min = 0, max = 100,
-          value = 5
+          min = 0, max = 40,
+          value = 5,
+          width = "100%"
         ),
-        actionButton("refresh_linkedIn", "Refresh data")
+        actionButton("refresh_linkedIn", "Refresh data", class = "refresh_button")
       )
     },
 
@@ -72,6 +73,7 @@ Profile <- R6Class("Profile", #nolint
       shares <- shares[, id := nrow(shares):1] #nolint
       shares <- shares[is.na(comments), comments := 0]
       shares <- shares[is.na(likes), likes := 0]
+      shares <- shares[is.na(views), views := 0]
       fwrite(shares, "profile.csv")
     },
 
