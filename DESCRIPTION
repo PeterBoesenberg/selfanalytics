@@ -1,5 +1,5 @@
 Package: selfanalytics
-Title: What the Package Does (One Line, Title Case)
+Title: Analyze your own LinkedIn profile shares
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "First",

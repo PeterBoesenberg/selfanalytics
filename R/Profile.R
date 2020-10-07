@@ -15,8 +15,6 @@ Profile <- R6Class("Profile", #nolint
     #' @field shares recent shares of the person
     shares = NULL,
 
-
-
     #' @description
     #' Read data from the web and save it to local variables
     #' @param pages how many pages should selenium scroll down to get shares
