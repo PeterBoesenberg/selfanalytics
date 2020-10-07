@@ -5,9 +5,9 @@ source("R/Profile.R")
 source("R/performance.R")
 
 shinyServer(function(input, output) {
-  profile <- profile_class$new()
+  profile <- Profile$new()
   profile$read(output)
-  performance <- performance_class$new() 
+  performance <- Performance$new()
 
   performance$get_views_server(output, profile$shares)
   performance$get_likes_server(output, profile$shares)

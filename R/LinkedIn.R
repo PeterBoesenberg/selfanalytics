@@ -8,7 +8,7 @@ library(stringr)
 config <- config::get()
 
 #' LinkedIn connector
-linkedin_class <- R6Class("LinkedIn",
+Linkedin <- R6Class("LinkedIn", # nolint
   public = list(
 
     #' constructor
@@ -44,7 +44,7 @@ linkedin_class <- R6Class("LinkedIn",
       private$driver <- driver
       private$selenium_driver <- rd
     },
-    
+
     #' Generate a random number between 1000 and 3000.
     #'
     #' Selenium is for some reason not releasing ports after use.
@@ -110,7 +110,6 @@ linkedin_class <- R6Class("LinkedIn",
       raw_date <- html_text(html_node(share_html, ".feed-shared-actor__sub-description span"))
       date <- str_split(raw_date, " ", simplify = TRUE)[1]
       likes <- html_text(html_node(share_html, ".social-details-social-counts__reactions-count"))
-      # TODO filter out own comments
       comments_raw <- html_text(html_node(share_html, ".social-details-social-counts__comments"))
       comments <- str_split(str_trim(comments_raw), " ", simplify = TRUE)[1]
 
@@ -132,7 +131,7 @@ linkedin_class <- R6Class("LinkedIn",
     },
     #' Get the name of the profile from HTML.
     #'
-    #' @return name as string, for example "Horst Schmidt" 
+    #' @return name as string, for example "Horst Schmidt"
     get_name = function() {
       driver <- private$driver
       element <- driver$findElements("css", ".pv-recent-activity-top-card__info h3")

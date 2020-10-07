@@ -1,6 +1,6 @@
 library(R6)
 
-performance_class <- R6Class(
+Performance <- R6Class( #nolint
   "Performance",
   public = list(
     #' Refresh all chart outputs serverside.
@@ -25,12 +25,13 @@ performance_class <- R6Class(
     #' @param shares datatable with id, views, likes, comments
     get_views_server = function(output, shares) {
       output$linkedin_views <- renderPlotly({
-        plot <- plot_ly(shares, mode = 'lines')
+        plot <- plot_ly(shares, mode = "lines")
         plot <-
           add_trace(plot,
-                    x = ~ id,
-                    y = ~ views,
-                    name = "Likes")
+            x = ~id,
+            y = ~views,
+            name = "Likes"
+          )
         plot <-
           layout(plot, title = "Views over time")
         plot
@@ -49,12 +50,13 @@ performance_class <- R6Class(
     #' @param shares datatable with id, views, likes, comments
     get_likes_server = function(output, shares) {
       output$linkedin_likes <- renderPlotly({
-        plot <- plot_ly(shares, mode = 'lines')
+        plot <- plot_ly(shares, mode = "lines")
         plot <-
           add_trace(plot,
-                    x = ~ id,
-                    y = ~ likes,
-                    name = "Likes")
+            x = ~id,
+            y = ~likes,
+            name = "Likes"
+          )
         plot <-
           layout(plot, title = "Likes over time")
         plot
@@ -73,12 +75,13 @@ performance_class <- R6Class(
     #' @param shares datatable with id, views, likes, comments
     get_comments_server = function(output, shares) {
       output$linkedin_comments <- renderPlotly({
-        plot <- plot_ly(shares, mode = 'lines')
+        plot <- plot_ly(shares, mode = "lines")
         plot <-
           add_trace(plot,
-                    x = ~ id,
-                    y = ~ comments,
-                    name = "Likes")
+            x = ~id,
+            y = ~comments,
+            name = "Likes"
+          )
         plot <-
           layout(plot, title = "Comments over time")
         plot
@@ -86,5 +89,4 @@ performance_class <- R6Class(
     }
   ),
   private = list()
-  
 )
