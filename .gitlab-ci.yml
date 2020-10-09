@@ -1,44 +1,27 @@
 image: rocker/shiny-verse
 
-stages:
-- install
-- build
-- document
-- check
-- test
-- deploy
-
-include:
-  - template: Code-Quality.gitlab-ci.yml
-
-install_libs:
-  stage: install
+variables:
+  R_LIBS_USER: "$CI_PROJECT_DIR/ci/lib"
+  CHECK_DIR: "$CI_PROJECT_DIR/ci/logs"
+  BUILD_LOGS_DIR: "$CI_PROJECT_DIR/ci/logs/$CI_PROJECT_NAME.Rcheck"
+  
+test:
   script:
-   - R -e 'install.packages(c("lintr", "styler", "testthat", "config", "RSelenium"))'
-   # - r -e 'devtools::build(binary = TRUE)'
-   - R -e 'lintr::checkstyle_output(lintr::lint_dir("."), "lintr_report.xml")'
+  - mkdir -p $R_LIBS_USER $BUILD_LOGS_DIR
+  - R -e 'install.packages(c("data.table", "lintr", "styler", "testthat", "config", "RSelenium"))'
+  - R -e 'devtools::install_deps(dep = T, lib = Sys.getenv("R_LIBS_USER"))'
+  - R -e 'lintr::checkstyle_output(lintr::lint_dir("."), "lintr_report.xml")'
+  - R -e 'options(testthat.output_file = "test-report.xml");testthat::test_dir("tests/testthat", reporter = "junit")'
+  - R -e 'devtools::check(check_dir = Sys.getenv("CHECK_DIR"))'
+  - R -e 'if (length(devtools::check_failures(path = Sys.getenv("BUILD_LOGS_DIR"), note = FALSE)) > 0) stop()'
+  cache:
+    paths:
+    - $R_LIBS_USER
   artifacts:
+    when: always
+    paths:
+      - test-report.xml
     reports:
-      codequality: "lintr_report.xml"
-
-unittests:
-  stage: test
-  script:
-    - R -e 'install.packages(c("lintr", "styler", "testthat", "config", "RSelenium"))'
-    - r -e 'if (any(as.data.frame(devtools::test())[["failed"]] > 0)) stop("Some tests failed.")'
-
-
-code_quality:
-  stage: test
-  artifacts:
-    paths: ["codeclimate_report.xml"]
-
-# buildbinary:
-#   stage: build
-#   script:
-#     - r -e 'devtools::build(binary = TRUE)'
-# 
-# linting:
-#   stage: check
-#   script:
-#   - R -e 'lintr::lint_dir(".")'
+      junit: test-report.xml    
+after_script:
+  - R -e 'covr::package_coverage(Sys.getenv("CI_PROJECT_DIR"))'
