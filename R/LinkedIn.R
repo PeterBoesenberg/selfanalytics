@@ -113,6 +113,10 @@ Linkedin <- R6Class("LinkedIn", # nolint
       comments_raw <- html_text(html_node(share_html, ".social-details-social-counts__comments"))
       comments <- str_split(str_trim(comments_raw), " ", simplify = TRUE)[1]
 
+      if(is.numeric(comments) && comments > 0) {
+        print(comments)
+      }
+      
       views_raw <- html_text(html_node(share_html, ".analytics-entry-point strong"))
       views <- str_trim(str_split(str_trim(views_raw), "views", simplify = TRUE)[1])
       views <- str_replace(views, ",", "")
