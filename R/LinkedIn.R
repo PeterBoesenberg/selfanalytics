@@ -4,6 +4,7 @@ library(rvest)
 library(RSelenium)
 library(data.table)
 library(stringr)
+source("R/LinkedinComments.R")
 
 config <- config::get()
 
@@ -13,8 +14,10 @@ Linkedin <- R6Class("LinkedIn", # nolint
 
     #' constructor
     initialize = function() {
+      private$linkedin_comments <- LinkedinComments$new()
       private$setup_crawler()
       private$login()
+      
     },
     #' @description
     #' Read data from the web
@@ -35,6 +38,7 @@ Linkedin <- R6Class("LinkedIn", # nolint
 
     selenium_driver = NULL,
     driver = NULL,
+    linkedin_comments = NULL,
 
     #' Starting Selenium and keeping selenium driver as a class variable.
     setup_crawler = function() {
@@ -70,9 +74,9 @@ Linkedin <- R6Class("LinkedIn", # nolint
     #' In theory, this should completely stop Selenium and free up the used port.
     #' In reality, the port is still blocked.
     shut_down_crawler = function() {
-      private$driver$close()
-      private$selenium_driver$server$stop()
-      gc()
+      # private$driver$close()
+      # private$selenium_driver$server$stop()
+      # gc()
     },
     #' Scrolls to the end of the page and waits three seconds.
     #' Waiting is necessary to let the webpage load the new content.
@@ -94,6 +98,8 @@ Linkedin <- R6Class("LinkedIn", # nolint
       for (i in seq_len(pages)) {
         private$scroll_down()
       }
+      private$linkedin_comments$open_all_comments(driver)
+      Sys.sleep(4)
       body <- driver$findElements("css", "body")
       body_content <- read_html(unlist(body[[1]]$getElementAttribute("innerHTML")))
 
@@ -110,20 +116,22 @@ Linkedin <- R6Class("LinkedIn", # nolint
       raw_date <- html_text(html_node(share_html, ".feed-shared-actor__sub-description span"))
       date <- str_split(raw_date, " ", simplify = TRUE)[1]
       likes <- html_text(html_node(share_html, ".social-details-social-counts__reactions-count"))
-      comments_raw <- html_text(html_node(share_html, ".social-details-social-counts__comments"))
-      comments <- str_split(str_trim(comments_raw), " ", simplify = TRUE)[1]
-
-      if (is.numeric(comments) && comments > 0) {
-        print(comments)
-      }
+      comments_count_raw <- html_text(html_node(share_html, ".social-details-social-counts__comments"))
+      comments_raw <- html_nodes(share_html, ".comments-comments-list .comments-post-meta__author-badge")
+      print("RAAWWWWWWWWWWWWWWWWWWWWWWWWWwww")
+      print(length(comments_raw))
+      comments <- private$linkedin_comments$get_comments_count_without_own(comments_count_raw, comments_raw)
 
       views_raw <- html_text(html_node(share_html, ".analytics-entry-point strong"))
       views <- str_trim(str_split(str_trim(views_raw), "views", simplify = TRUE)[1])
       views <- str_replace(views, ",", "")
 
       share <- list(date = date, likes = str_trim(likes), comments = comments, views = views)
+      print("A SHARE")
+      print(share)
       return(share)
     },
+
     #' @param profile_path path to the profile, e.g. "peterboesenberg"
     #' @param pages number of pages selenium should scroll down to get shares
     get_shares = function(profile_path, pages = 10) {
