@@ -74,9 +74,9 @@ Linkedin <- R6Class("LinkedIn", # nolint
     #' In theory, this should completely stop Selenium and free up the used port.
     #' In reality, the port is still blocked.
     shut_down_crawler = function() {
-      # private$driver$close()
-      # private$selenium_driver$server$stop()
-      # gc()
+      private$driver$close()
+      private$selenium_driver$server$stop()
+      gc()
     },
     #' Scrolls to the end of the page and waits three seconds.
     #' Waiting is necessary to let the webpage load the new content.
@@ -118,7 +118,7 @@ Linkedin <- R6Class("LinkedIn", # nolint
       likes <- html_text(html_node(share_html, ".social-details-social-counts__reactions-count"))
       comments_count_raw <- html_text(html_node(share_html, ".social-details-social-counts__comments"))
       comments_raw <- html_nodes(share_html, ".comments-comments-list .comments-post-meta__author-badge")
-      print("RAAWWWWWWWWWWWWWWWWWWWWWWWWWwww")
+      print("RAW COMMENTS")
       print(length(comments_raw))
       comments <- private$linkedin_comments$get_comments_count_without_own(comments_count_raw, comments_raw)
 

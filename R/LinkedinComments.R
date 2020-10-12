@@ -9,14 +9,10 @@ LinkedinComments <- R6Class( #
       print(comments_raw)
       print(own_comments)
       print(comments_count)
-      comments <- as.numeric(comments_count) - own_comments
+      comments <- as.numeric(comments_count) - length(own_comments)
       print("THIs makes....")
       print(comments)
-      # if (!is.na(comments)) {
-      #   element <- driver$findElements("css", ".pv-recent-activity-top-card__info h3")
-      #     
-      #     print(comments)
-      # }
+
       return(comments)
     },
     
@@ -31,11 +27,7 @@ LinkedinComments <- R6Class( #
         elements,
         function(x) x$clickElement()
       )
-      # for (i in seq_len(length(elements))) {
-      #   elements[[i]]$clickElement()
-      # }
-      #load more
-      # elements <- driver$findElements("css", ".comments-comments-list__load-more-comments-button")
+      
       last_element_id <- ""
       elements <- driver$findElements("css", ".comments-comments-list__load-more-comments-button")
       while(length(elements) > 0 & elements[[1]]$getElementAttribute("id")[[1]] != last_element_id) {
