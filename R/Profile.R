@@ -75,7 +75,7 @@ Profile <- R6Class("Profile", #nolint
       shares <- shares[is.na(comments), comments := 0]
       shares <- shares[is.na(likes), likes := 0]
       shares <- shares[is.na(views), views := 0]
-      fwrite(shares, "profile2.csv")
+      fwrite(shares, "profile.csv")
     },
 
     #' Refreshes shiny-outputs with values in self$shares.

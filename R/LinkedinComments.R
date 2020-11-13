@@ -8,9 +8,12 @@ LinkedinComments <- R6Class( #
       print("OWN COMMENTS")
       print(comments_raw)
       print(own_comments)
+      print("ALL_COMMENTS")
+      print(comments_count_raw)
       print(comments_count)
-      comments <- as.numeric(comments_count) - length(own_comments)
-      print("THIs makes....")
+      print(as.numeric(comments_count))
+      comments <- as.numeric(comments_count) - own_comments
+      print("THIS makes....")
       print(comments)
 
       return(comments)
@@ -30,7 +33,7 @@ LinkedinComments <- R6Class( #
       
       last_element_id <- ""
       elements <- driver$findElements("css", ".comments-comments-list__load-more-comments-button")
-      while(length(elements) > 0 & elements[[1]]$getElementAttribute("id")[[1]] != last_element_id) {
+      while(length(elements) > 0 && elements[[1]]$getElementAttribute("id")[[1]] != last_element_id) {
         elements <- driver$findElements("css", ".comments-comments-list__load-more-comments-button")
         driver$setTimeout(type = "implicit", milliseconds = 1000)
 
@@ -44,39 +47,23 @@ LinkedinComments <- R6Class( #
         )
       }
       last_element_id <- ""
-      replay_containers <- driver$findElements("css", ".comments-comment-item__replies-list")
       reply_buttons <- driver$findElements("css", " .button.show-prev-replies")
-      print("COMPLETE REPLY BUTTONS")
-      print(length(reply_buttons))
-      # while(length(replay_buttons) > 0 ) {
-        # print("ACTIVE ID")
-        # print(replay_containers[[1]]$getElementAttribute("id")[[1]])
-        # replay_containers <- driver$findElements("css", ".comments-comment-item__replies-list")
-        # 
-        # driver$setTimeout(type = "implicit", milliseconds = 1000)
+      while(length(reply_buttons) > 0 ) {
+        driver$setTimeout(type = "implicit", milliseconds = 1000)
 
         sapply(
           reply_buttons,
           function(x) {
-            # html<-read_html(unlist(x$getElementAttribute("innerHTML")))
-            # last_element_id <<- x$getElementAttribute("id")
-            # print("LAST ID")
-            # print(last_element_id)
-            # button <- x$findChildElements("css", ".button.show-prev-replies")
-            # print("BUTTONNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN????")
-            # print(length(button))
-            # if (length(button) > 0) {
-            #   button[[1]]$clickElement()
-            # }
+
             x$clickElement()
             Sys.sleep(2)
             }
         )
         Sys.sleep(2)
-        replay_buttons <- driver$findElements("css", ".button.show-prev-replies")
+        reply_buttons <- driver$findElements("css", ".button.show-prev-replies")
         print("MORE BUTTONS??")
-        print(length(replay_buttons))
-      # }
+        print(length(reply_buttons))
+      }
 
     }
   ),

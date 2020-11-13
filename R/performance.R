@@ -16,6 +16,7 @@ Performance <- R6Class( #nolint
       self$get_views_server(output, shares)
       self$get_likes_server(output, shares)
       self$get_comments_server(output, shares)
+      self$get_all_shares_server(output, shares)
     },
     #' Get Plotly UI for LinkedIn-Views.
     #'
@@ -91,6 +92,12 @@ Performance <- R6Class( #nolint
           layout(plot, title = private$translations$t("charts.comments.name"))
         plot
       })
+    },
+    get_all_shares_server = function(output, shares) {
+      output$all_shares <- renderTable(shares)
+    },
+    get_all_shares_ui = function() {
+      tableOutput("all_shares")
     }
   ),
   private = list(

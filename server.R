@@ -16,6 +16,7 @@ shinyServer(function(input, output) {
   performance$get_views_server(output, profile$shares)
   performance$get_likes_server(output, profile$shares)
   performance$get_comments_server(output, profile$shares)
-
+  performance$get_all_shares_server(output, profile$shares)
+  
   profile$get_refresh_server(input, output)
 })

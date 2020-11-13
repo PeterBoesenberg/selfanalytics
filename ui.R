@@ -33,6 +33,9 @@ shinyUI(fluidPage(
         performance$get_views_ui("linkedin_views"),
         performance$get_likes_ui("linkedin_likes"),
         performance$get_comments_ui("linkedin_comments"),
+      ),
+      div(
+        performance$get_all_shares_ui()
       )
     )
   )

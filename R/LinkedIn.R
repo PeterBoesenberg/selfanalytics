@@ -29,6 +29,9 @@ Linkedin <- R6Class("LinkedIn", # nolint
       private$shut_down_crawler()
       data <- list(name = name, shares = shares)
       return(data)
+    },
+    get_driver = function(){
+      return(private$driver)
     }
   ),
   private = list(
