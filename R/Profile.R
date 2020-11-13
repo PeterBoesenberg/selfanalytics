@@ -4,9 +4,9 @@ source("R/LinkedIn.R")
 #' Profile of a person
 Profile <- R6Class("Profile", #nolint
   public = list(
-
     #' Initialize the profile
-    initialize = function() {
+   initialize = function(translations) {
+    private$translations <- translations
     },
 
     #' @field name full name of the person.
@@ -32,12 +32,12 @@ Profile <- R6Class("Profile", #nolint
     #' @return tagList with input and button
     get_refresh_ui = function() {
       tagList(
-        sliderInput("pages_count", "Scroll how many times:",
+        sliderInput("pages_count", private$translations$t("scroll-times"),
           min = 0, max = 40,
           value = 5,
           width = "100%"
         ),
-        actionButton("refresh_linkedIn", "Refresh data", class = "refresh_button")
+        actionButton("refresh_linkedIn", private$translations$t("buttons.refresh"), class = "refresh_button")
       )
     },
 
@@ -62,6 +62,7 @@ Profile <- R6Class("Profile", #nolint
     }
   ),
   private = list(
+    translations = NULL,
     linkedin = NULL,
     profile_name = "peterboesenberg",
 
@@ -83,7 +84,7 @@ Profile <- R6Class("Profile", #nolint
     #'
     #' @param output shiny output
     refresh_outputs = function(output = NULL) {
-      performance <- Performance$new()
+      performance <- Performance$new(private$translations)
       performance$refresh_server(output, self$shares)
       output$shares_count <- private$build_shares_count_ui(self$shares)
     },
@@ -94,7 +95,7 @@ Profile <- R6Class("Profile", #nolint
     #' @return shiny renderText
     build_shares_count_ui = function(shares) {
       renderText({
-        paste0("Currently loaded shares:", nrow(shares))
+        paste0(private$translations$t("shares.loaded"), nrow(shares))
       })
     }
   )

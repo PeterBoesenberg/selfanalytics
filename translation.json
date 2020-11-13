@@ -1,0 +1,20 @@
+{
+  "cultural_date_format": "%d-%m-%Y",
+  "languages": ["key", "en", "de"],
+  "translation": [
+    {"key": "app.title", "en": "Self Analytics", "de": "Self Analytics"},
+    {"key": "step1.header", "en": "Step 1: Conenct to LinkedIn data", "de": "Schritt 1: Mit LinkedIn-Daten verbinden"},
+    {"key": "shares.loaded", "en": "Currently loaded shares:", "de": "Aktuell geladene Posts:"},
+    {"key": "scroll-times", "en": "Scroll how many times?", "de": "Wie oft scrollen?"},
+    {"key": "buttons.refresh", "en": "Refresh data", "de": "Daten neu laden"},
+    {"key": "charts.views.name", "en": "Views over time", "de": "Ansichten im Zeitverlauf"},
+    {"key": "charts.views.xaxis", "en": "Id", "de": "Id"},
+    {"key": "charts.views.yaxis", "en": "Views", "de": "Ansichten"},
+    {"key": "charts.likes.name", "en": "Likes over time", "de": "Likes im Zeitverlauf"},
+    {"key": "charts.likes.xaxis", "en": "Id", "de": "Id"},
+    {"key": "charts.likes.yaxis", "en": "Likes", "de": "Likes"},
+    {"key": "charts.comments.name", "en": "Comments over time", "de": "Kommentare im Zeitverlauf"},
+    {"key": "charts.comments.xaxis", "en": "Id", "de": "Id"},
+    {"key": "charts.comments.yaxis", "en": "Comments", "de": "Kommentare"}
+  ]
+}

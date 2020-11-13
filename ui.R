@@ -1,10 +1,16 @@
 library(shiny)
 library(plotly)
+library(shiny.i18n)
+source("R/I18n.R")
 source("R/performance.R")
 source("R/Profile.R")
+i18n <- I18n$new()
+i18n$setup()
+translations <- i18n$i18n
 
-performance <- Performance$new()
-profile <- Profile$new()
+
+performance <- Performance$new(translations)
+profile <- Profile$new(translations)
 shinyUI(fluidPage(
   includeCSS("www/layout.css"),
   includeCSS("www/refresh.css"),
@@ -12,9 +18,9 @@ shinyUI(fluidPage(
     
     # Sidebar with a slider input
     sidebarPanel(
-      titlePanel("Self Analytics"),
+      titlePanel(translations$t("app.title")),
       hr(),
-      h4("Step1: Connect to LinkedIn Data"),
+      h4(translations$t("step1.header")),
       textOutput("shares_count"),
       div(
         class = "refresh",

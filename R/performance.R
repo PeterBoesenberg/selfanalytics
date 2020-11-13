@@ -4,6 +4,10 @@ library(plotly)
 Performance <- R6Class( #nolint
   "Performance",
   public = list(
+    #' Initialize 
+    initialize = function(translations) {
+      private$translations <- translations
+    },
     #' Refresh all chart outputs serverside.
     #'
     #' @param output shiny output
@@ -31,10 +35,10 @@ Performance <- R6Class( #nolint
           add_trace(plot,
             x = ~id,
             y = ~views,
-            name = "Likes"
+            name =  private$translations$t("charts.views.yaxis")
           )
         plot <-
-          layout(plot, title = "Views over time")
+          layout(plot, title = private$translations$t("charts.views.name"))
         plot
       })
     },
@@ -56,10 +60,10 @@ Performance <- R6Class( #nolint
           add_trace(plot,
             x = ~id,
             y = ~likes,
-            name = "Likes"
+            name =  private$translations$t("charts.likes.yaxis")
           )
         plot <-
-          layout(plot, title = "Likes over time")
+          layout(plot, title = private$translations$t("charts.likes.name"))
         plot
       })
     },
@@ -81,13 +85,15 @@ Performance <- R6Class( #nolint
           add_trace(plot,
             x = ~id,
             y = ~comments,
-            name = "Likes"
+            name =  private$translations$t("charts.comments.yaxis")
           )
         plot <-
-          layout(plot, title = "Comments over time")
+          layout(plot, title = private$translations$t("charts.comments.name"))
         plot
       })
     }
   ),
-  private = list()
+  private = list(
+    translations = NULL
+  )
 )
