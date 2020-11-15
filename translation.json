@@ -15,6 +15,15 @@
     {"key": "charts.likes.yaxis", "en": "Likes", "de": "Likes"},
     {"key": "charts.comments.name", "en": "Comments over time", "de": "Kommentare im Zeitverlauf"},
     {"key": "charts.comments.xaxis", "en": "Id", "de": "Id"},
-    {"key": "charts.comments.yaxis", "en": "Comments", "de": "Kommentare"}
+    {"key": "charts.comments.yaxis", "en": "Comments", "de": "Kommentare"},
+    {"key": "charts.likes_by_views.name", "en": "Likes per view over time", "de": "Likes pro Ansicht im Zeitverlauf"},
+    {"key": "charts.likes_by_views.xaxis", "en": "Id", "de": "Id"},
+    {"key": "charts.likes_by_views.yaxis", "en": "Likes per view", "de": "Likes pro Ansicht"},
+    {"key": "charts.comments_by_views.name", "en": "Comments per views over time", "de": "Kommentar pro Ansicht im Zeitverlauf"},
+    {"key": "charts.comments_by_views.xaxis", "en": "Id", "de": "Id"},
+    {"key": "charts.comments_by_views.yaxis", "en": "Comments per view", "de": "Kommentare pro Ansicht"},
+    {"key": "charts.comments_by_likes.name", "en": "Comments per like over time", "de": "Kommentare pro Like im Zeitverlauf"},
+    {"key": "charts.comments_by_likes.xaxis", "en": "Id", "de": "Id"},
+    {"key": "charts.comments_by_likes.yaxis", "en": "Comments per likes", "de": "Kommentare pro Like"}
   ]
 }

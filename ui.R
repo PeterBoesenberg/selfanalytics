@@ -2,13 +2,15 @@ library(shiny)
 library(plotly)
 library(shiny.i18n)
 source("R/I18n.R")
-source("R/performance.R")
+source("R/Metrics.R")
+source("R/Performance.R")
 source("R/Profile.R")
 i18n <- I18n$new()
 i18n$setup()
 translations <- i18n$i18n
 
 
+metrics <- Metrics$new(translations)
 performance <- Performance$new(translations)
 profile <- Profile$new(translations)
 shinyUI(fluidPage(
@@ -30,12 +32,18 @@ shinyUI(fluidPage(
     mainPanel(
       div(
         class = "flex",
-        performance$get_views_ui("linkedin_views"),
-        performance$get_likes_ui("linkedin_likes"),
-        performance$get_comments_ui("linkedin_comments"),
+        metrics$get_views_ui(),
+        metrics$get_likes_ui(),
+        metrics$get_comments_ui()
       ),
       div(
-        performance$get_all_shares_ui()
+        class = "flex",
+        performance$get_comments_by_views_ui(),
+        performance$get_comments_by_likes_ui(),
+        performance$get_likes_by_views_ui()
+      ),
+      div(
+        metrics$get_all_shares_ui()
       )
     )
   )
